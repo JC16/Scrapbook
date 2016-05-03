@@ -110,7 +110,7 @@ class ScrapbookModel
     
     func addClippingToCollection(clipping: Clipping, collection: Collection)
     {
-        collection.addCliping(clipping)
+        //collection.addCliping(clipping)
         clipping.collections = collection
         
         do
