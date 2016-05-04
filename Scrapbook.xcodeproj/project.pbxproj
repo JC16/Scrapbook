@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		290108B21CD9D2CD0082B85C /* CollectionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290108B11CD9D2CD0082B85C /* CollectionListViewController.swift */; };
+		290108B41CD9D3F60082B85C /* ClippingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290108B31CD9D3F60082B85C /* ClippingListViewController.swift */; };
+		290108B61CD9E0F70082B85C /* ClippingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290108B51CD9E0F70082B85C /* ClippingDetailViewController.swift */; };
 		29F1A22F1CD713BE001F6037 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F1A22E1CD713BE001F6037 /* AppDelegate.swift */; };
 		29F1A2311CD713BE001F6037 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F1A2301CD713BE001F6037 /* ViewController.swift */; };
 		29F1A2341CD713BE001F6037 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29F1A2321CD713BE001F6037 /* Main.storyboard */; };
@@ -19,6 +22,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		290108B11CD9D2CD0082B85C /* CollectionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionListViewController.swift; sourceTree = "<group>"; };
+		290108B31CD9D3F60082B85C /* ClippingListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClippingListViewController.swift; sourceTree = "<group>"; };
+		290108B51CD9E0F70082B85C /* ClippingDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClippingDetailViewController.swift; sourceTree = "<group>"; };
 		29F1A22B1CD713BE001F6037 /* Scrapbook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scrapbook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29F1A22E1CD713BE001F6037 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		29F1A2301CD713BE001F6037 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +78,9 @@
 				29F1A2441CD71885001F6037 /* Collection.swift */,
 				29F1A2461CD71885001F6037 /* Clipping.swift */,
 				29F1A24B1CD71A19001F6037 /* ScrapbookModel.swift */,
+				290108B31CD9D3F60082B85C /* ClippingListViewController.swift */,
+				290108B11CD9D2CD0082B85C /* CollectionListViewController.swift */,
+				290108B51CD9E0F70082B85C /* ClippingDetailViewController.swift */,
 			);
 			path = Scrapbook;
 			sourceTree = "<group>";
@@ -147,9 +156,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				290108B41CD9D3F60082B85C /* ClippingListViewController.swift in Sources */,
+				290108B61CD9E0F70082B85C /* ClippingDetailViewController.swift in Sources */,
 				29F1A24C1CD71A19001F6037 /* ScrapbookModel.swift in Sources */,
 				29F1A2311CD713BE001F6037 /* ViewController.swift in Sources */,
 				29F1A2481CD71885001F6037 /* Collection.swift in Sources */,
+				290108B21CD9D2CD0082B85C /* CollectionListViewController.swift in Sources */,
 				29F1A2371CD713BE001F6037 /* Scrapbook.xcdatamodeld in Sources */,
 				29F1A22F1CD713BE001F6037 /* AppDelegate.swift in Sources */,
 				29F1A24A1CD71885001F6037 /* Clipping.swift in Sources */,
