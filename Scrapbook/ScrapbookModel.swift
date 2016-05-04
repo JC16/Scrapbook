@@ -11,33 +11,23 @@ import CoreData
 
 class ScrapbookModel
 {
-    var collectionArray: [Collection] = []
-    var manageObject: NSManagedObjectContext?
+    let manageObject = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
-    init(object: NSManagedObjectContext?)
-    {
-        manageObject = object
-    }
-    
-    func saveObject()
-    {
-        do
-        {
-            try manageObject?.save()
-        }catch
-        {
-            print("Error")
-        }
-    }
-    
+
     func newCollection(name: String)->Collection
     {
-        let EntityDescription = NSEntityDescription.entityForName("Collection", inManagedObjectContext: manageObject!)
+        let EntityDescription = NSEntityDescription.entityForName("Collection", inManagedObjectContext: manageObject)
         let newData = Collection(entity: EntityDescription!, insertIntoManagedObjectContext: manageObject)
         
         newData.name = name
         
-        saveObject()
+        do
+        {
+            try manageObject.save()
+        }catch
+        {
+            print("Error in saving collection")
+        }
         
         return newData
     }
@@ -49,7 +39,7 @@ class ScrapbookModel
         
         do
         {
-            let fetchResult = try manageObject!.executeFetchRequest(fetch)as?[Clipping]
+            let fetchResult = try manageObject.executeFetchRequest(fetch)as?[Clipping]
             if let Clipping = fetchResult
             {
                 clippingArray = Clipping
@@ -68,9 +58,11 @@ class ScrapbookModel
         //var clippingArray: [Clipping] = []
         let fetch = NSFetchRequest(entityName: "Collection")
         
+        var collectionArray = [Collection]()
+        
         do
         {
-            let fetchResult = try manageObject!.executeFetchRequest(fetch)as?[Collection]
+            let fetchResult = try manageObject.executeFetchRequest(fetch)as?[Collection]
             if let Collections = fetchResult
             {
                 collectionArray = Collections
@@ -84,9 +76,9 @@ class ScrapbookModel
     
     func newClipping(notes:String, image:UIImage)->Clipping
     {
-        let EntityDescription = NSEntityDescription.entityForName("Clipping", inManagedObjectContext: manageObject!)
+        let EntityDescription = NSEntityDescription.entityForName("Clipping", inManagedObjectContext: manageObject)
         
-        let newClip = Clipping(entity: EntityDescription!, insertIntoManagedObjectContext: manageObject!)
+        let newClip = Clipping(entity: EntityDescription!, insertIntoManagedObjectContext: manageObject)
         
         newClip.notes = notes
         newClip.dateCreated = NSDate()
@@ -115,7 +107,7 @@ class ScrapbookModel
         
         do
         {
-            try manageObject?.save()
+            try manageObject.save()
         }
         catch
         {
@@ -128,13 +120,13 @@ class ScrapbookModel
     {
         for clipping in collection.clippings
         {
-            manageObject!.deleteObject(clipping as! NSManagedObject)
+            manageObject.deleteObject(clipping as! NSManagedObject)
         }
-        manageObject!.deleteObject(collection)
+        manageObject.deleteObject(collection)
         
         do
         {
-            try manageObject?.save()
+            try manageObject.save()
         }catch
         {
             print("error deleting collection")
@@ -144,11 +136,11 @@ class ScrapbookModel
     
     func deleteClipping(clipping: Clipping)
     {
-        manageObject!.deleteObject(clipping)
+        manageObject.deleteObject(clipping)
         
         do
         {
-            try manageObject?.save()
+            try manageObject.save()
         }
         catch
         {
@@ -159,14 +151,14 @@ class ScrapbookModel
     func searchClippings(match:String) ->[Clipping]
     {
         let request = NSFetchRequest()
-        let EntityDescription = NSEntityDescription.entityForName("Clipping", inManagedObjectContext: manageObject!)
+        let EntityDescription = NSEntityDescription.entityForName("Clipping", inManagedObjectContext: manageObject)
         request.entity = EntityDescription
         
         let pred = NSPredicate(format: "notes contains[c] %@", match)
         request.predicate = pred
         
         do{
-            let results = try manageObject?.executeFetchRequest(request)
+            let results = try manageObject.executeFetchRequest(request)
             return results as! [Clipping]
         } catch {
             print("error searching clippings")
@@ -179,7 +171,7 @@ class ScrapbookModel
     {
         let request = NSFetchRequest()
         let entityDescription = NSEntityDescription.entityForName("Clipping",
-                                                                  inManagedObjectContext: manageObject!)
+                                                                  inManagedObjectContext: manageObject)
         request.entity = entityDescription
         
         let pred = NSPredicate(format: "notes contains[c] %@", match)
@@ -188,7 +180,7 @@ class ScrapbookModel
         request.predicate = predicate
         
         do{
-            let results = try manageObject?.executeFetchRequest(request)
+            let results = try manageObject.executeFetchRequest(request)
             return results as! [Clipping]
         } catch {
             print("error searching clippings")
