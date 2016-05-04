@@ -14,10 +14,19 @@ class ClippingDetailViewController: UIViewController {
     var label: String!
     var time: String!
     
+    @IBOutlet weak var ImageLabel: UIImageView!
+    @IBOutlet weak var DateLabel: UILabel!
+    @IBOutlet weak var NoteLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        let documentURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
+        let fileURL = documentURL.URLByAppendingPathComponent(img)
+        ImageLabel.image = UIImage(contentsOfFile: fileURL.path!)
+        
+        NoteLabel.text = "Description: " + label
+        DateLabel.text = "Date: " + time
     }
 
     override func didReceiveMemoryWarning() {

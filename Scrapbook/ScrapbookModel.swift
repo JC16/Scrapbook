@@ -74,7 +74,7 @@ class ScrapbookModel
         return collectionArray
     }
     
-    func newClipping(notes:String, image:UIImage)->Clipping
+    func newClipping(notes:String, image:String)->Clipping
     {
         let EntityDescription = NSEntityDescription.entityForName("Clipping", inManagedObjectContext: manageObject)
         
@@ -82,19 +82,15 @@ class ScrapbookModel
         
         newClip.notes = notes
         newClip.dateCreated = NSDate()
+        newClip.image = image
         
-        let documentFolder: String = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        
-        newClip.image = "/\(newClip.image).jpg"
-        
-        let documentPath = documentFolder + newClip.image
-        
-        if let imageData = UIImageJPEGRepresentation(image,1.0)
+        do
         {
-            imageData.writeToFile(documentPath, atomically: true)
-        }else
+            try manageObject.save()
+        }
+        catch
         {
-            print("No Image found")
+            print("Could not save clip")
         }
         
         return newClip

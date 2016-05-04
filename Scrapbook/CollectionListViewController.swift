@@ -53,7 +53,7 @@ class CollectionListViewController: UITableViewController {
 
         var colle: [Collection] = bookModel.getAllCollections()
         // Configure the cell...
-
+    
         if(indexPath.row > 0)
         {
             cell.textLabel?.text = colle[indexPath.row - 1].name
