@@ -21,10 +21,15 @@ class ClippingDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Get the document URL
         let documentURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
+        //Combine the document URL with file name
         let fileURL = documentURL.URLByAppendingPathComponent(img)
+        
+        //Set the imageView for the detail page
         ImageLabel.image = UIImage(contentsOfFile: fileURL.path!)
         
+        //Set description and date
         NoteLabel.text = "Description: " + label
         DateLabel.text = "Date: " + time
     }

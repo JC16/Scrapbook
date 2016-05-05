@@ -11,12 +11,15 @@ import UIKit
 class CollectionListViewController: UITableViewController {
     
     
-    
+    //The add collection button
     @IBAction func Addbutton(sender: AnyObject) {
         addCollection()
     }
+    
+    
     var bookModel: ScrapbookModel = ScrapbookModel()
 
+    //Create an edit button for edit collection
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,7 +41,7 @@ class CollectionListViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
+        // Return the number of sections
         return 1
     }
 
@@ -49,17 +52,21 @@ class CollectionListViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        //Dequeue the information
         let cell = tableView.dequeueReusableCellWithIdentifier("collection", forIndexPath: indexPath)
 
+        //Get all the collection from coredata
         var colle: [Collection] = bookModel.getAllCollections()
-        // Configure the cell...
     
+        //If there are more than one collection get collection
         if(indexPath.row > 0)
         {
             cell.textLabel?.text = colle[indexPath.row - 1].name
         }
         else
         {
+            //All clippings
             cell.textLabel?.text = "All Clippings"
         }
         
@@ -87,6 +94,7 @@ class CollectionListViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
+            //Delete the collection
             bookModel.deleteCollection(bookModel.getAllCollections()[indexPath.row - 1])
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         }
@@ -116,17 +124,19 @@ class CollectionListViewController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        let destinationNavigationController = segue.destinationViewController as! ClippingListViewController
+        //Navigate the collection view ro clipping view
+        let destination = segue.destinationViewController as! ClippingListViewController
         let row = self.tableView.indexPathForSelectedRow?.row
         var coll: [Collection] = bookModel.getAllCollections()
         
+        //Check which clips to go
         if(row > 0){
-            destinationNavigationController.clips = coll[row! - 1].clippings.allObjects as! [Clipping]
-            destinationNavigationController.colle = coll[row! - 1]
+            destination.clips = coll[row! - 1].clippings.allObjects as! [Clipping]
+            destination.colle = coll[row! - 1]
         }
         else{
-            destinationNavigationController.clips = bookModel.getAllClippings()
-            destinationNavigationController.check = true
+            destination.clips = bookModel.getAllClippings()
+            destination.check = true
         }
         
         
