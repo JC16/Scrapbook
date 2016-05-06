@@ -140,6 +140,7 @@ class ScrapbookModel
         
     }
     
+    //Delete Clipping
     func deleteClipping(clipping: Clipping)
     {
         manageObject.deleteObject(clipping)
@@ -154,6 +155,7 @@ class ScrapbookModel
         }
     }
     
+    //Search Clippings
     func searchClippings(match:String) ->[Clipping]
     {
         let request = NSFetchRequest()
@@ -173,6 +175,7 @@ class ScrapbookModel
         
     }
     
+    //Search Clipping with collection
     func searchClippingWithin(match: String, collection: Collection)->[Clipping]
     {
         let request = NSFetchRequest()
