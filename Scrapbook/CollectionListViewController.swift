@@ -154,7 +154,7 @@ class CollectionListViewController: UITableViewController {
         alert.addAction(cancel)
         
         alert.addTextFieldWithConfigurationHandler { textField -> Void in
-            textField.text = "Enter Collection Name "
+            textField.text = " "
         }
         
         let createAction: UIAlertAction = UIAlertAction(title: "Create", style: .Default) { action -> Void in

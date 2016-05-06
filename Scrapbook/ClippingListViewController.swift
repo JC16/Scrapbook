@@ -58,6 +58,8 @@ class ClippingListViewController: UITableViewController, UISearchBarDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.title = "Clippings"
+        
         searchClips = clips
         searchBar.delegate = self
         

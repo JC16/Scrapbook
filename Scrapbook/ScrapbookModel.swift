@@ -80,6 +80,8 @@ class ScrapbookModel
         return collectionArray
     }
     
+    
+    //Create new clipping store in database
     func newClipping(notes:String, image:String)->Clipping
     {
         let EntityDescription = NSEntityDescription.entityForName("Clipping", inManagedObjectContext: manageObject)
@@ -102,6 +104,7 @@ class ScrapbookModel
         return newClip
     }
     
+    //Add cliping to collection
     func addClippingToCollection(clipping: Clipping, collection: Collection)
     {
         //collection.addCliping(clipping)
@@ -118,6 +121,7 @@ class ScrapbookModel
         
     }
     
+    //Delete collection
     func deleteCollection(collection: Collection)
     {
         for clipping in collection.clippings
