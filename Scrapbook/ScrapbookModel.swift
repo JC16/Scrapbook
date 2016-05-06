@@ -13,16 +13,19 @@ class ScrapbookModel
 {
     let manageObject = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
-
+    //Create collection function
     func newCollection(name: String)->Collection
     {
+        //Insert the new collection data into database
         let EntityDescription = NSEntityDescription.entityForName("Collection", inManagedObjectContext: manageObject)
         let newData = Collection(entity: EntityDescription!, insertIntoManagedObjectContext: manageObject)
         
+        //Set the date name eqaul name
         newData.name = name
         
         do
         {
+            //Save collection
             try manageObject.save()
         }catch
         {
@@ -32,13 +35,16 @@ class ScrapbookModel
         return newData
     }
     
+    //Get all the clippings return a clipping array
     func getAllClippings()->[Clipping]
     {
+        
         var clippingArray: [Clipping] = []
         let fetch = NSFetchRequest(entityName: "Clipping")
         
         do
         {
+            //Fetch the result from database
             let fetchResult = try manageObject.executeFetchRequest(fetch)as?[Clipping]
             if let Clipping = fetchResult
             {
@@ -52,10 +58,10 @@ class ScrapbookModel
     }
     
     
-    
+    //Get collection
     func getAllCollections()->[Collection]
     {
-        //var clippingArray: [Clipping] = []
+
         let fetch = NSFetchRequest(entityName: "Collection")
         
         var collectionArray = [Collection]()
@@ -171,10 +177,11 @@ class ScrapbookModel
         request.entity = entityDescription
         
         let pred = NSPredicate(format: "notes contains[c] %@", match)
-        let pred2 = NSPredicate(format: "myCollection == %@", collection)
+        let pred2 = NSPredicate(format: "collections == %@", collection)
         let predicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [pred, pred2])
         request.predicate = predicate
         
+        //var error: NSError?
         do{
             let results = try manageObject.executeFetchRequest(request)
             return results as! [Clipping]

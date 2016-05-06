@@ -142,10 +142,13 @@ class CollectionListViewController: UITableViewController {
         
     }
     
+    //Add collection function
     func addCollection()
     {
+        //Create a alert for user to input the collection name
         let alert: UIAlertController = UIAlertController(title: "Create new Collection", message: "",preferredStyle: .Alert)
         
+        //Cancel if they don't want to do it
         let cancel: UIAlertAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
         alert.addAction(cancel)
