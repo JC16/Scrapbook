@@ -10,6 +10,7 @@ import UIKit
 
 class ClippingListViewController: UITableViewController, UISearchBarDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    //If there are more than 1 clip show edit otherwise show add
     var check: Bool = false
     
     var clips: [Clipping] = []
@@ -25,10 +26,13 @@ class ClippingListViewController: UITableViewController, UISearchBarDelegate, UI
     
     @IBOutlet weak var searchBar: UISearchBar!
     
+    //The search bar function
     func searchBar(searchbar: UISearchBar, textDidChange searchText: String)
     {
+        //If collection not nil
         if(colle == nil)
         {
+            //If search is not empty
             if(searchText != "")
             {
                 clips = bookModel.searchClippings(searchText)
@@ -58,11 +62,12 @@ class ClippingListViewController: UITableViewController, UISearchBarDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "Clippings"
+        
         
         searchClips = clips
         searchBar.delegate = self
         
+        //Check if there are more than one clips
         if(check)
         {
            self.navigationItem.rightBarButtonItem = self.editButtonItem()
@@ -85,17 +90,22 @@ class ClippingListViewController: UITableViewController, UISearchBarDelegate, UI
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
-            // print("We can add function here when dismiss gallery or camerea")
+            
         })
-        //let newImg: UIImage = image
+        
+        
+        //Get the document URL and fileanme
         let documentsURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
         let imgName: String = "image_\(NSDate.timeIntervalSinceReferenceDate())" + ".png"
         let fileURL = documentsURL.URLByAppendingPathComponent(imgName)
-        let pngImageData = UIImagePNGRepresentation(image) //save as png
+        
+        //Save the image using the fileURL path
+        let pngImageData = UIImagePNGRepresentation(image)
         let result = pngImageData!.writeToFile(fileURL.path!, atomically: true) //save to file
-        //fileURL.path! use to display the image again
+        
+        //Check if the image had been saved or not with file URL
         if result{
-            print("savesuccess " + imgName + " " + fileURL.path!)}
+            print("save success " + imgName + " " + fileURL.path!)}
         else{
             print("save error")
         }
@@ -117,10 +127,10 @@ class ClippingListViewController: UITableViewController, UISearchBarDelegate, UI
         }
         
         
-        //Create and an option action
+        //Create an option action for user to chooise
         let createAction: UIAlertAction = UIAlertAction(title: "Create", style: .Default) { action -> Void in
             if alert.textFields![0].text != nil{
-                //let newClip: Clipping = self.book.CreateClipp(alert.textFields![0].text!, image: fileURL.path!)
+                
                 let newClip: Clipping = self.bookModel.newClipping(alert.textFields![0].text!, image: imgName)
                 
                 print("Image Name: " + imgName)
@@ -137,8 +147,10 @@ class ClippingListViewController: UITableViewController, UISearchBarDelegate, UI
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
+    //Add new clipping
     func addClipping()
     {
+        //Create a alert for user to insert clipping description
         let alert: UIAlertController = UIAlertController(title: "Create New Clipping", message: "", preferredStyle: .ActionSheet)
         
         let cancel: UIAlertAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
@@ -147,33 +159,39 @@ class ClippingListViewController: UITableViewController, UISearchBarDelegate, UI
         
         
         let takePictureAction: UIAlertAction = UIAlertAction(title: "Take Picture", style: .Default) { action -> Void in
-            //Code for launching the camera goes here
+            //Open the camera for user to take phote
             if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
             {
+                //Set the camera source
                 self.image.sourceType = UIImagePickerControllerSourceType.Camera
-                //self.imagePicker.allowsEditing = true //make photo can be edited
+                
+                //make photo can be edited
                 self .presentViewController(self.image, animated: true, completion: nil)
             }
             else
             {
-                //let alertWarning = UIAlertView(title:"Warning", message: "You don't have camera", delegate:nil, cancelButtonTitle:"OK")
                 
+                //Check if the user have camera
                 let alert: UIAlertController = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .Alert)
                 
                 //Create and add the Cancel action
                 let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .Cancel) { action -> Void in
-                    //Do some stuff
+                   
                 }
+                //Add action
                 alert.addAction(cancelAction)
-                alert.view.setNeedsLayout() //kill bug
+                alert.view.setNeedsLayout()
                 self.presentViewController(alert, animated: true, completion: nil)
             }
         }
         
+        //Add takePicture action
         alert.addAction(takePictureAction)
         
+        //Choose picture from camera
         let choosePictureAction: UIAlertAction = UIAlertAction(title: "Choose From Camera Roll", style: .Default) { action -> Void in
-            //Code for picking from camera roll goes here
+            
+            // Picking from camera
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum){
                 
                 
@@ -210,21 +228,26 @@ class ClippingListViewController: UITableViewController, UISearchBarDelegate, UI
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        //Upate the cell in the tabel view
         let cell = tableView.dequeueReusableCellWithIdentifier("result", forIndexPath: indexPath)
 
         cell.textLabel!.text = clips[indexPath.row].notes
         let imgPath = clips[indexPath.row].image
         
+        /*
+        Used for debug check cell and image
         print("*********************")
         print("Seting Cell imageName: " + imgPath)
+         */
         
+        //Create an image view and update image to the cell
         let documentURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
         let fileURL = documentURL.URLByAppendingPathComponent(imgPath)
         cell.imageView?.image = UIImage(named: fileURL.path!)
         
-        //ƒprint("Read " + imgPath + " " + fileURL.path!)
         
-        
+        //Formate the date and set date
         let formatter = NSDateFormatter()
         formatter.dateStyle = NSDateFormatterStyle.LongStyle
         formatter.timeStyle = .MediumStyle
@@ -291,6 +314,7 @@ class ClippingListViewController: UITableViewController, UISearchBarDelegate, UI
    
     // MARK: - Navigation
 
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
